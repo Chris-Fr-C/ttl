@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "register.h"
 
 int main(int argc, char *argv[]) {
   absl::InitializeLog();
