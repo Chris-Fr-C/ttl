@@ -2,10 +2,15 @@
 #include "absl/log/check.h"
 #include "absl/log/initialize.h"
 #include "absl/time/time.h"
+#include <absl/log/internal/check_op.h>
+#include "absl/status/statusor.h"
 #include <iostream>
 #include <string>
 #include <vector>
-#include "register.h"
+// #include "register.h"
+#include "parser.h"
+#include "absl/strings/str_join.h"
+
 
 int main(int argc, char *argv[]) {
   absl::InitializeLog();
@@ -19,17 +24,16 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
+  std::string input = positional_args[1]; // Casting
   std::string file = positional_args[2];
 
-  absl::Duration ttl;
-  std::string error;
-  bool parsed = absl::ParseDuration(positional_args[1], &ttl);
+  absl::StatusOr<absl::Duration> duration = ttl::Parse(input); 
 
-  CHECK(parsed) << "Failed to parse TTL duration: " << positional_args[1];
+  CHECK(duration.ok());
 
-  // TODO: fix this cause duration only accepts up to the hour. but we want also day and months.
-  std::cout << "Asking to delete " << file << " after "
-            << absl::FormatDuration(ttl) << "\n";
+  // // TODO: fix this cause duration only accepts up to the hour. but we want also day and months.
+  // std::cout << "Asking to delete " << file << " after "
+  //           << absl::FormatDuration(ttl) << "\n";
 
   return 0;
 }

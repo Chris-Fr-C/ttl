@@ -19,7 +19,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 
 # Adding da executable
-add_executable(ttl src/main.cpp)
+add_executable(
+  ttl 
+  src/main.cpp
+  src/parser.cpp
+  src/register.cpp
+)
 
 # For the linter.
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -32,6 +37,9 @@ target_include_directories(ttl PUBLIC
 
 target_link_libraries(ttl PRIVATE
 # The high-level targets
+    absl::status
+    absl::statusor
+    absl::strings
     absl::flags
     absl::flags_parse
     absl::log
